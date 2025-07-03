@@ -1,0 +1,256 @@
+/* Air University - Premium UI Overhaul v7 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- THEME VARIABLES --- */
+/* DARK MODE (DEFAULT) */
+:root {
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0b0c0;
+  --bg-main: #101720;
+  --bg-sidebar: rgba(18, 28, 41, 0.75);
+  --bg-message-bot: #1e293b;
+  --bg-message-user: linear-gradient(45deg, #1a5a96, #007bff);
+  --bg-input: #1a2431;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --accent-blue: #007bff;
+  --accent-gold: #ffc107;
+  --logo-color: #e0e0e0;
+  --logo-filter: invert(1); /* Inverts dark logo to white for dark theme */
+  --logo-opacity: 0.03;
+}
+
+/* LIGHT MODE */
+body.light-mode {
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --bg-main: #f8f9fa;
+  --bg-sidebar: rgba(255, 255, 255, 0.8);
+  --bg-message-bot: #e9ecef;
+  --bg-message-user: linear-gradient(45deg, #007bff, #0056b3);
+  --bg-input: #ffffff;
+  --border-color: #dee2e6;
+  --logo-color: #0d2c4f;
+  --logo-filter: invert(0); /* Keeps original logo color for light theme */
+  --logo-opacity: 0.04;
+}
+
+/* --- BASE & LAYOUT --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  overflow: hidden;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.app-container { display: flex; height: 100vh; position: relative; }
+
+.background-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+  filter: blur(150px);
+  top: -100px;
+  left: -100px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 300px;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, border-color 0.3s;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.logo-container { display: flex; align-items: center; gap: 0.75rem; }
+.logo-container h3 { color: var(--logo-color); font-weight: 700; font-size: 1.5rem; }
+.logo-container h3 span { color: var(--accent-blue); }
+.logo-img { width: 32px; height: auto; }
+
+.sidebar-content { flex-grow: 1; overflow-y: auto; scrollbar-width: none; }
+.sidebar-content::-webkit-scrollbar { display: none; }
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--accent-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-primary:hover { background: #0069d9; transform: translateY(-2px); }
+
+.topics-container { margin-top: 2rem; }
+.topics-container h6 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.topic-item { padding: 0.75rem; border-radius: 8px; cursor: pointer; transition: background-color 0.2s; }
+.topic-item:hover { background-color: var(--bg-message-bot); }
+.topic-item .topic-item-header { display: flex; align-items: center; gap: 0.8rem; }
+.topic-item i { color: var(--accent-blue); }
+.topic-item h5 { font-size: 0.95rem; font-weight: 500; margin: 0; }
+.topic-item p { font-size: 0.8rem; margin: 0.25rem 0 0 2.1rem; opacity: 0.8; color: var(--text-secondary); }
+
+.form-select {
+  width: 100%;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.form-select:focus { box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-blue) 25%, transparent); }
+
+.sidebar-footer {
+  margin-top: auto;
+  text-align: center;
+  font-size: 0.8rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: border-color 0.3s;
+}
+.sidebar-footer a { color: var(--text-secondary); transition: color 0.2s; }
+.sidebar-footer a:hover { color: var(--text-primary); }
+.creator-links { display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; }
+
+/* --- MAIN CONTENT & CHAT AREA --- */
+.main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 1rem 1rem;
+  overflow: hidden;
+  position: relative; /* Needed for the ::before pseudo-element */
+}
+
+/* --- CHAT BACKGROUND LOGO --- */
+.chat-area::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background-image: url(https://upload.wikimedia.org/wikipedia/en/thumb/1/10/Air_University_Pakistan_logo.svg/1200px-Air_University_Pakistan_logo.svg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: var(--logo-opacity);
+  filter: var(--logo-filter);
+  z-index: 0;
+  transition: filter 0.3s, opacity 0.3s;
+}
+
+.chat-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative; /* Ensures chat content appears above the background logo */
+  z-index: 1;
+}
+
+.messages-container { flex: 1; overflow-y: auto; padding: 1.5rem; scrollbar-width: thin; scrollbar-color: var(--accent-blue) transparent; }
+.messages-container::-webkit-scrollbar { width: 6px; }
+.messages-container::-webkit-scrollbar-thumb { background-color: var(--accent-blue); border-radius: 3px; }
+
+.message { display: flex; margin-bottom: 2rem; gap: 1rem; max-width: 95%; animation: fadeIn 0.5s ease-in-out; }
+.message-bot { align-self: flex-start; }
+.message-user { align-self: flex-end; flex-direction: row-reverse; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+.avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; background: var(--bg-message-bot); }
+.message-bot .avatar { color: var(--accent-blue); }
+.message-user .avatar { color: #ffffff; background: var(--bg-message-user); }
+
+.message-content { padding: 1rem 1.25rem; border-radius: 12px; width: fit-content; line-height: 1.6; background: var(--bg-message-bot); transition: background-color 0.3s; }
+.message-bot .message-content { border-top-left-radius: 0; }
+.message-user .message-content { background: var(--bg-message-user); color: #ffffff; border-top-right-radius: 0; }
+.message-content strong { color: var(--accent-blue); }
+.message-user .message-content strong { color: #ffffff; }
+.message-content a { color: var(--accent-blue); text-decoration: none; }
+.message-content a:hover { text-decoration: underline; }
+.message-content ul { padding-left: 20px; }
+.message-content pre { background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; white-space: pre-wrap; word-wrap: break-word; font-family: 'Courier New', Courier, monospace; }
+
+/* --- INPUT & LOADING --- */
+.loading-indicator { display: none; padding: 1rem 1.5rem; }
+.typing-indicator { display: flex; gap: 4px; align-items: center; }
+.typing-indicator span { width: 8px; height: 8px; background-color: var(--text-secondary); border-radius: 50%; animation: bounce 1s infinite; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+.input-area { display: flex; gap: 0.5rem; align-items: flex-end; padding: 1rem 0; position: relative; }
+.voice-status { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); color: var(--text-secondary); font-size: 0.85rem; height: 20px; transition: opacity 0.3s; opacity: 0; background-color: var(--bg-input); padding: 2px 10px; border-radius: 10px; }
+.voice-status.listening { opacity: 1; color: var(--accent-blue); }
+
+.input-wrapper { flex: 1; display: flex; align-items: center; background-color: var(--bg-input); border-radius: 12px; padding: 0.25rem 0.5rem 0.25rem 1rem; border: 1px solid var(--border-color); transition: all 0.3s; }
+.input-wrapper:focus-within { border-color: var(--accent-blue); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-blue) 25%, transparent); }
+
+.form-control { flex: 1; border: none; background: transparent; padding: 0.75rem 0; color: var(--text-primary); font-size: 1rem; }
+.form-control:focus { outline: none; box-shadow: none; }
+.form-control::placeholder { color: var(--text-secondary); }
+
+.btn-icon { background: none; border: none; color: var(--text-secondary); font-size: 1.2rem; padding: 0.5rem; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: color 0.2s, background-color 0.2s; cursor: pointer; }
+.btn-icon:hover { color: var(--text-primary); background-color: var(--bg-message-bot); }
+.btn-icon.active { color: var(--accent-blue); }
+
+.send-button { border-radius: 10px; width: 50px; height: 50px; font-size: 1.2rem; flex-shrink: 0; color: #fff; border: none; cursor: pointer; transition: all 0.2s ease; }
+
+.powered-by { text-align: center; font-size: 0.75rem; padding-top: 1rem; }
+.powered-by p, .powered-by a { color: var(--text-secondary); opacity: 0.7; }
+.powered-by a { text-decoration: none; }
+.powered-by a:hover { text-decoration: underline; }
+
+/* --- MOBILE --- */
+.mobile-header { display: none; }
+@media (max-width: 992px) {
+  .sidebar { position: fixed; left: 0; top: 0; height: 100%; transform: translateX(-100%); }
+  .sidebar.show { transform: translateX(0); }
+  .mobile-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border-color); background: var(--bg-sidebar); backdrop-filter: blur(12px); }
+  .btn-icon.mobile-close, .btn-icon.sidebar-toggle { color: var(--text-primary); }
+}

@@ -1,0 +1,16 @@
+{
+    "name": "startup-mentor-chatbot",
+    "version": "1.0.0",
+    "description": "A chatbot to help startup aspirants",
+    "main": "index.html",
+    "scripts": {
+      "build": "tsc",
+      "watch": "tsc -w"
+    },
+    "dependencies": {
+      "bootstrap": "^5.3.2"
+    },
+    "devDependencies": {
+      "typescript": "^5.2.2"
+    }
+  }
